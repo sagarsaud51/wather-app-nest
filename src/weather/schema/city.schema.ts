@@ -1,5 +1,5 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Weather } from './weather.schema';
 
 export type CityDocument = City & Document;

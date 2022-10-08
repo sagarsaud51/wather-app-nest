@@ -1,11 +1,11 @@
-import mongoose, { Document, SchemaType } from 'mongoose';
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Clouds, MainData, Wind, WeatherBody } from './weather.type';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document } from 'mongoose';
 import { City } from './city.schema';
+import { Clouds, MainData, WeatherBody, Wind } from './weather.type';
 
 export type WeatherDocument = Weather & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Weather extends Document {
   @Prop({ type: Object })
   weather: WeatherBody[];
@@ -34,11 +34,8 @@ export class Weather extends Document {
   @Prop()
   cod: number;
 
-  @Prop({ type: Number, default: new Date().getTime() })
-  createdAt: number;
-
-  @Prop({ type: Number, default: new Date().getTime() })
-  updatedAt!: number;
+  @Prop()
+  dt: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'City' })
   city: City;

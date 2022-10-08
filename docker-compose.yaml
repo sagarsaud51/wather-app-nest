@@ -11,9 +11,9 @@ services:
       args:
         - NODE_ENV=development
     environment:
-      - OPEN_WEATHER_API_KEY= 0da563921420b920946111e44ffd04b7
+      - OPEN_WEATHER_API_KEY= API-KEY-HERE
       - OPEN_WEATHER__BASE_URL=https://api.openweathermap.org/
-      - CRON_INTERVAL= 50000
+      - CRON_INTERVAL= 0 0-23/1 * * *
       - MONGO_URL=mongodb://mongodb:27017/weather
     ports:
       - 3000:3000

@@ -1,44 +1,30 @@
+import * as assert from 'assert';
 import * as dotenv from 'dotenv';
-interface Environment {
-  [key: string]: string;
-}
 
-const requiredEnv = [
-  'OPEN_WEATHER_API_KEY',
-  'OPEN_WEATHER__BASE_URL',
-  'CRON_INTERVAL',
-  'MONGO_URL',
-];
-
-const initConf = () => {
-  dotenv.config();
-  const missingKeys: string[] = [];
-  const env = {} as Environment;
-  for (const key of requiredEnv) {
-    if (key in process.env && process.env[key]) {
-      env[key] = process.env[key];
-    } else {
-      missingKeys.push(key);
-    }
-  }
-
-  if (missingKeys.length > 0) {
-    console.error(`Missing env vars: ${missingKeys.join(',')}`);
-    console.error(
-      `Terminating Weather Application!! Please update your environment`,
-    );
-    process.exit(0);
-  }
-  if (!parseInt(env['CRON_INTERVAL'])) {
-    console.error(
-      `Invalid Cron Interval Value [Cron Value = ${env['CRON_INTERVAL']}]`,
-    );
-    console.error(
-      `Terminating Weather Application!! Please update your environment`,
-    );
-    process.exit(0);
-  }
-  return env;
+dotenv.config();
+const validateEnvConfig = (): void => {
+  assert(
+    process.env['OPEN_WEATHER_API_KEY'],
+    'OPEN_WEATHER_API_KEY key in env file is missing!',
+  );
+  assert(
+    process.env['OPEN_WEATHER__BASE_URL'],
+    'OPEN_WEATHER__BASE_URL key in env file is missing!',
+  );
+  assert(
+    process.env['CRON_INTERVAL'],
+    'CRON_INTERVAL key in env file is missing!',
+  );
+  assert(process.env['MONGO_URL'], 'MONGO_URL key in env file is missing!');
 };
 
-export const environment: Environment = initConf();
+validateEnvConfig();
+const environment = {
+  OPEN_WEATHER_API_KEY: process.env['OPEN_WEATHER_API_KEY'],
+  OPEN_WEATHER__BASE_URL: process.env['OPEN_WEATHER__BASE_URL'],
+  CRON_INTERVAL: process.env['CRON_INTERVAL'],
+  MONGO_URL: process.env['MONGO_URL'],
+  PORT: parseInt(process.env['PORT']) | 3000,
+  LOG_LEVEL: process.env['LOG_LEVEL'] ? process.env['LOG_LEVEL'] : 'info',
+};
+export default environment;

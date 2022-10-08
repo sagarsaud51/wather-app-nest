@@ -6,11 +6,16 @@ export interface WeatherResponse {
   main: MainData;
   visibility: number;
   wind: Wind;
-  rain: Record<string, unknown>;
+  rain: any;
   clouds: Clouds;
-  dt: number;
+  dt?: number;
   timezone: number;
   id: number;
   name: string;
   cod: number;
+  dt_txt?: string;
+}
+
+export interface WeatherForecastResponse {
+  list: WeatherResponse[];
 }
